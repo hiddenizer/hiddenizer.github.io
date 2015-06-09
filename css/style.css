@@ -1,0 +1,13 @@
+
+/* labels at left-side of fields */
+.inline-label {
+	display: inline-block;
+	width: 120px;
+	font-style: normal;
+	font-size: 12px;
+}
+
+/* fields at right-side of labels */
+.inline-field {
+	vertical-align: text-top;
+}
