@@ -77,4 +77,8 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 		console.log("Registro salvo com sucesso.");
 	}
 
+	$scope.removeRegister = function(reg) {
+		$scope.database.splice($scope.database.indexOf(reg), 1);
+		console.log("Registro removido com sucesso.");
+	}
 }]);
