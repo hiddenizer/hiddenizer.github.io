@@ -11,7 +11,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
     $scope.password = '';
     $scope.confirmation = '';
 
-    $scope.savePassword = function() {
+    $scope.loadAndDecrypt = function() {
         password = $scope.password;
         confirmation = $scope.confirmation;
         if (password === '') {
@@ -29,18 +29,23 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
         $scope.loadDatabase();
     }
 
-    $scope.saveDatabase = function() {
+    $scope.encryptAndSave = function() {
         encrypted = encrypt(JSON.stringify($scope.database), $scope.password);
         uploadFile(encrypted);
     }
 
     $scope.loadDatabase = function() {
         //data = getFile();
-        if (!data) {
-            $scope.database = [];
-            return;
-        }
-        $scope.database = decrypt(data, $scope.password);
+        data  = downloadPassdataFile(function(data) {
+            if (!data) {
+                //insertFile('');
+                $scope.database = [];
+                return;
+            }
+
+            $scope.database = decrypt(data, $scope.password);
+        });
+
     }
 
     $scope.addRegister = function() {

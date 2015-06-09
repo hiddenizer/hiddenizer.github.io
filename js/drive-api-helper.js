@@ -1,8 +1,6 @@
 var CLIENT_ID = '330949250781-torme3rlgtome44ep48v3qc7ch0lv5sd.apps.googleusercontent.com';
 var SCOPES = 'https://www.googleapis.com/auth/drive';
 
-var AUTHORIZED;
-
 /**
  * Called when the client library is loaded to start the auth flow.
  */
@@ -29,10 +27,8 @@ function handleAuthResult(authResult) {
   var content = document.getElementById('content');
   authButton.style.display = 'none';
   content.style.display = 'none';
-  AUTHORIZED = false;
   if (authResult && !authResult.error) {
     // Access token has been successfully retrieved, requests can be sent to the API.
-    AUTHORIZED = true;
     content.style.display = 'block';
   } else {
     // No access token could be retrieved, show the button to start the authorization flow.
@@ -51,61 +47,96 @@ function handleAuthResult(authResult) {
  * @param {Object} evt Arguments from the file selector.
  */
 function uploadFile(data) {
-  gapi.client.load('drive', 'v2', function() {
-    insertFile(data);
-  });
+    gapi.client.load('drive', 'v2', function() {
+        insertFile(data);
+    });
 }
 
 /**
- * Start the file downloads.
- *
- * @param {Object} evt Arguments from the file selector.
- */
-function getFile() {
-  gapi.client.load('drive', 'v2', function() {
-      loadFile();
-  });
-}
-
-/**
- * Get file.
+ * Verify if has pass.data file.
  *
  * @param {File} fileData File object to read data from.
  * @param {Function} callback Function to call when the request is complete.
  */
-function loadFile(callback) {
-    var contentType = 'application/octet-stream';
-    var metadata = {
-      'title': 'pass.data',
-      'mimeType': contentType
-    };
+function hasPassdataFile(callback) {
+    searchPassdataFile(function(data) {
+        callback(data.items.length > 0);
+    });
+}
 
-    var request = gapi.client.request({
+
+/**
+ * Download pass.data file.
+ *
+ * @param {Function} callback Function to call when the request is complete.
+ */
+function downloadPassdataFile(callback) {
+    searchPassdataFile(function(files) {
+        if (files.items.length == 0)
+            callback();
+
+        var fileId = data.items[0].id;
+
+        loadFile(fileId, function(fileSpecs) {
+            webContentLink = fileSpecs.webContentLink;
+            downloadFile(webContentLink, callback);
+        });
+
+    });
+}
+
+/**
+ * Search pass.data file.
+ *
+ * @param {Function} callback Function to call when the request is complete.
+ */
+function searchPassdataFile(callback) {
+    searchFile("title contains 'pass.data'", callback);
+}
+
+/**
+ * Search file.
+ *
+ * @param {String} q query to find
+ * @param {Function} callback Function to call when the request is complete.
+ */
+function searchFile(q, callback) {
+    request = gapi.client.request({
         'path': '/drive/v2/files',
         'method': 'GET',
-        'params': {'q': "title contains 'pass.data'"}
+        'params': {'q': q}
     });
 
-    request.execute(function(data) {
-        fileId = data.items[0].id;
-        console.log(fileId);
+    request.execute(callback);
+}
 
-        var request2 = gapi.client.request({
-            'path': '/drive/v2/files/' + fileId,
-            'method': 'GET'});
+/**
+ * Load a specific file.
+ *
+ * @param {String} fileId
+ * @param {Function} callback Function to call when the request is complete.
+ */
+function loadFile(fileId, callback) {
+    request = gapi.client.request({
+        'path': '/drive/v2/files/' + fileId,
+        'method': 'GET'});
 
-        request2.execute(function(data2) {
-            data2.webContentLink;
+    request.execute(callback);
+}
 
-            var request3 = gapi.client.request({
-                'path': data2.webContentLink,
-                'method': 'GET'});
 
-            request3.execute(function(data3) {
-                console.log(data3);
-            });
-        });
-    });
+/**
+ * Download a specific file.
+ *
+ * @param {String} fileId
+ * @param {Function} callback Function to call when the request is complete.
+ */
+function downloadFile(webContentLink, callback) {
+    request = gapi.client.request({
+        'path': webContentLink,
+        'method': 'GET'});
+
+    request.execute(callback);
 }
 
 /**
