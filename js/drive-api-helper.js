@@ -74,43 +74,37 @@ function getFile() {
  * @param {Function} callback Function to call when the request is complete.
  */
 function loadFile(callback) {
-  const boundary = '-------314159265358979323846';
-  const delimiter = "\r\n--" + boundary + "\r\n";
-  const close_delim = "\r\n--" + boundary + "--";
-
     var contentType = 'application/octet-stream';
     var metadata = {
       'title': 'pass.data',
       'mimeType': contentType
     };
 
-    var base64Data = btoa(data);
-    var multipartRequestBody =
-        delimiter +
-        'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(metadata) +
-        delimiter +
-        'Content-Type: ' + contentType + '\r\n' +
-        'Content-Transfer-Encoding: base64\r\n' +
-        '\r\n' +
-        base64Data +
-        close_delim;
-
     var request = gapi.client.request({
-        'path': '/upload/drive/v2/files',
+        'path': '/drive/v2/files',
         'method': 'GET',
-        'params': {'uploadType': 'multipart'},
-        'headers': {
-          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-        },
-        'body': multipartRequestBody});
+        'params': {'q': "title contains 'pass.data'"}});
 
-    if (!callback) {
-      callback = function(file) {
-        console.log(file)
-      };
-    }
-    request.execute(callback);
+    request.execute(function(data) {
+        fileId = data.items[0].id;
+        console.log(fileId);
+
+        var request2 = gapi.client.request({
+            'path': '/drive/v2/files/' + fileId,
+            'method': 'GET'});
+
+        request2.execute(function(data2) {
+            data2.webContentLink;
+
+            var request3 = gapi.client.request({
+                'path': data2.webContentLink,
+                'method': 'GET'});
+
+            request3.execute(function(data3) {
+                console.log(data3);
+            }
+        }
+    });
 }
 
 /**
