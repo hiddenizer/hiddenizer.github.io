@@ -1,2 +1,3 @@
 # Shadownize
-Simple text-based password manager
+
+Simple text-based password manager.
