@@ -48,17 +48,21 @@
 
 				<button ng-click="new_register_panel = true">New</button>
 
+				<br>
+
 				<div ng-repeat="reg in database">
 					<p>
 						Nome: {{ reg.name }} <br>
 						Usuário: {{ reg.user }} <br>
 					    Senha: {{ reg.password }} <br>
 						Descrição: {{ reg.description }} <br>
-						<a nd-click="removeRegister(reg)"> Remover </a>
+						<a ng-click="removeRegister(reg)">Remover</a>
 					</p>
 				</div>
-				{{ database.length }} registros.
+				
+				<small>{{ database.length }} registros.</small>
 
+				<br>
 				<br>
 
 				<button ng-click="encryptAndSave()">Encrypt and Store</button>

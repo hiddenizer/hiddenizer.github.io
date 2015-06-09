@@ -71,6 +71,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 	$scope.addRegister = function() {
 		// TODO: validar campos
+        console.log($scope.database);
 		$scope.database.push($scope.register);
 		$scope.register = {};
 		$scope.new_register_panel = false;
