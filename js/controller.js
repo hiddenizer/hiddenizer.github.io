@@ -11,6 +11,8 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
     $scope.password = '';
     $scope.confirmation = '';
 
+    window.setTimeout($scope.loadDatabase(), 500);
+
     $scope.savePassword = function() {
         password = $scope.password;
         confirmation = $scope.confirmation;
@@ -47,7 +49,5 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
         $scope.addNewRegister = false;
         console.log("Registro salvo com sucesso.");
     }
-
-    $scope.loadDatabase();
 
 }]);
