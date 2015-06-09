@@ -58,7 +58,10 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 			console.log("File 'pass.data' downloaded from Google Drive.");
 
 			console.log("Decrypting file 'pass.data'...");
-			$scope.database = decrypt(data, $scope.password);
+            $scope.$apply(function(){
+    			$scope.database = decrypt(data, $scope.password);
+                console.log($scope.database);
+            });
 			console.log("File 'pass.data' decrypted.");
 
 			callback();
