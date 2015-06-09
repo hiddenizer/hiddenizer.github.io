@@ -53,7 +53,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 				console.log("Can not found 'pass.data'.");
                 $scope.$apply(function(){
 				    $scope.database = [];
-                }
+                });
 				callback();
 				return;
 			}
