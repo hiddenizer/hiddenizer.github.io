@@ -78,8 +78,9 @@ function downloadPassdataFile(callback) {
         var fileId = files.items[0].id;
 
         loadFile(fileId, function(fileSpecs) {
-            webContentLink = fileSpecs.webContentLink;
-            downloadFile(webContentLink, callback);
+            //url = fileSpecs.webContentLink;
+            url = fileSpecs.downloadUrl;
+            downloadFile(url, callback);
         });
 
     });
