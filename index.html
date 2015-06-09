@@ -55,7 +55,8 @@
 						Descrição: {{ reg.description }} <br>
 					</p>
 				</div>
-				<span ng-show="database.length = 0">Nenhum registro encontrado.</span>
+				{{ database.length }}
+				<span ng-show="database.length = 0">Nenhum registro cadastrado.</span>
 
 				<br>
 

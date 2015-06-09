@@ -23,10 +23,13 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
             throw 'PasswordError';
         }
 
-        $scope.show_password_panel = false;
-        $scope.list_panel = true;
+        $scope.loadDatabase(function(success) {
+            if (!success)
+                throw 'Erro when system try load database.';
 
-        $scope.loadDatabase();
+            $scope.show_password_panel = false;
+            $scope.list_panel = true;
+        });
     }
 
     $scope.encryptAndSave = function() {
@@ -34,21 +37,24 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
         uploadFile(encrypted);
     }
 
-    $scope.loadDatabase = function() {
+    $scope.loadDatabase = function(callback) {
         //data = getFile();
         data  = downloadPassdataFile(function(data) {
             if (!data) {
                 //insertFile('');
                 $scope.database = [];
+                callback(true);
                 return;
             }
 
             $scope.database = decrypt(data, $scope.password);
+            callback(true);
         });
 
     }
 
     $scope.addRegister = function() {
+        // TODO: validar campos
         $scope.database.push($scope.register);
         $scope.register = {};
         $scope.new_register_panel = false;
