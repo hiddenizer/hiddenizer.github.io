@@ -23,12 +23,14 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 			throw 'PasswordError';
 		}
 
-		$scope.loadDatabase(function(success) {
-			if (!success)
-				throw 'Erro when system try load database.';
+		$scope.loadDatabase(function(err) {
+            if (err)
+				throw 'Erro when system try load database. ' + err;
 
-			$scope.show_password_panel = false;
-			$scope.list_panel = true;
+            $scope.$apply(function(){
+				$scope.show_password_panel = false;
+			    $scope.list_panel = true;
+            }
 		});
 	}
 
@@ -50,7 +52,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 				//insertFile('');
 				console.log("Can not found 'pass.data'.");
 				$scope.database = [];
-				callback(true);
+				callback();
 				return;
 			}
 			console.log("File 'pass.data' downloaded from Google Drive.");
@@ -59,7 +61,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 			$scope.database = decrypt(data, $scope.password);
 			console.log("File 'pass.data' decrypted.");
 
-			callback(true);
+			callback();
 		});
 
 	}
