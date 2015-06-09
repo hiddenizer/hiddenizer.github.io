@@ -5,16 +5,16 @@ var SCOPES = 'https://www.googleapis.com/auth/drive';
  * Called when the client library is loaded to start the auth flow.
  */
 function handleClientLoad() {
-  window.setTimeout(checkAuth, 1);
+	window.setTimeout(checkAuth, 1);
 }
 
 /**
  * Check if the current user has authorized the application.
  */
 function checkAuth() {
-  gapi.auth.authorize(
-      {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
-      handleAuthResult);
+	gapi.auth.authorize(
+		{'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
+		handleAuthResult);
 }
 
 /**
@@ -23,22 +23,22 @@ function checkAuth() {
  * @param {Object} authResult Authorization result.
  */
 function handleAuthResult(authResult) {
-  var authButton = document.getElementById('authorizeButton');
-  var content = document.getElementById('content');
-  authButton.style.display = 'none';
-  content.style.display = 'none';
-  if (authResult && !authResult.error) {
-    // Access token has been successfully retrieved, requests can be sent to the API.
-    content.style.display = 'block';
-  } else {
-    // No access token could be retrieved, show the button to start the authorization flow.
-    authButton.style.display = 'block';
-    authButton.onclick = function() {
-        gapi.auth.authorize(
-            {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
-            handleAuthResult);
-    };
-  }
+	var authButton = document.getElementById('authorizeButton');
+	var content = document.getElementById('content');
+	authButton.style.display = 'none';
+	content.style.display = 'none';
+	if (authResult && !authResult.error) {
+		// Access token has been successfully retrieved, requests can be sent to the API.
+		content.style.display = 'block';
+	} else {
+		// No access token could be retrieved, show the button to start the authorization flow.
+		authButton.style.display = 'block';
+		authButton.onclick = function() {
+				gapi.auth.authorize(
+						{'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
+						handleAuthResult);
+		};
+	}
 }
 
 /**
@@ -47,9 +47,9 @@ function handleAuthResult(authResult) {
  * @param {Object} evt Arguments from the file selector.
  */
 function uploadFile(data) {
-    gapi.client.load('drive', 'v2', function() {
-        insertFile(data);
-    });
+		gapi.client.load('drive', 'v2', function() {
+				insertFile(data);
+		});
 }
 
 /**
@@ -59,9 +59,9 @@ function uploadFile(data) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function hasPassdataFile(callback) {
-    searchPassdataFile(function(data) {
-        callback(data.items.length > 0);
-    });
+	searchPassdataFile(function(data) {
+			callback(data.items.length > 0);
+	});
 }
 
 
@@ -71,19 +71,18 @@ function hasPassdataFile(callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function downloadPassdataFile(callback) {
-    searchPassdataFile(function(files) {
-        if (files.items.length == 0)
-            callback();
+	searchPassdataFile(function(files) {
+		if (files.items.length == 0)
+			callback();
 
-        var fileId = files.items[0].id;
+		var fileId = files.items[0].id;
 
-        loadFile(fileId, function(fileSpecs) {
-            //url = fileSpecs.webContentLink;
-            url = fileSpecs.downloadUrl;
-            downloadFile(url, callback);
-        });
-
-    });
+		loadFile(fileId, function(fileSpecs) {
+			//url = fileSpecs.webContentLink;
+			url = fileSpecs.downloadUrl;
+			downloadFile(url, callback);
+		});
+	});
 }
 
 /**
@@ -92,7 +91,7 @@ function downloadPassdataFile(callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function searchPassdataFile(callback) {
-    searchFile("title contains 'pass.data'", callback);
+	searchFile("title contains 'pass.data'", callback);
 }
 
 /**
@@ -102,13 +101,13 @@ function searchPassdataFile(callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function searchFile(q, callback) {
-    request = gapi.client.request({
-        'path': '/drive/v2/files',
-        'method': 'GET',
-        'params': {'q': q}
-    });
+	request = gapi.client.request({
+		'path': '/drive/v2/files',
+		'method': 'GET',
+		'params': {'q': q}
+	});
 
-    request.execute(callback);
+	request.execute(callback);
 }
 
 /**
@@ -118,11 +117,11 @@ function searchFile(q, callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function loadFile(fileId, callback) {
-    request = gapi.client.request({
-        'path': '/drive/v2/files/' + fileId,
-        'method': 'GET'});
+	request = gapi.client.request({
+		'path': '/drive/v2/files/' + fileId,
+		'method': 'GET'});
 
-    request.execute(callback);
+	request.execute(callback);
 }
 
 
@@ -133,11 +132,11 @@ function loadFile(fileId, callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 /*function downloadFile(url, callback) {
-    request = gapi.client.request({
-        'path': webContentLink,
-        'method': 'url'});
+		request = gapi.client.request({
+				'path': webContentLink,
+				'method': 'url'});
 
-    request.execute(callback);
+		request.execute(callback);
 }*/
 
 /**
@@ -147,21 +146,21 @@ function loadFile(fileId, callback) {
  * @param {Function} callback Function to call when the request is complete.
  */
 function downloadFile(downloadUrl, callback) {
-  if (downloadUrl) {
-    var accessToken = gapi.auth.getToken().access_token;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', downloadUrl);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-    xhr.onload = function() {
-      callback(xhr.responseText);
-    };
-    xhr.onerror = function() {
-      callback(null);
-    };
-    xhr.send();
-  } else {
-    callback(null);
-  }
+	if (downloadUrl) {
+		var accessToken = gapi.auth.getToken().access_token;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', downloadUrl);
+		xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+		xhr.onload = function() {
+			callback(xhr.responseText);
+		};
+		xhr.onerror = function() {
+			callback(null);
+		};
+		xhr.send();
+	} else {
+		callback(null);
+	}
 }
 
 /**
@@ -171,41 +170,41 @@ function downloadFile(downloadUrl, callback) {
 * @param {Function} callback Function to call when the request is complete.
 */
 function insertFile(data, callback) {
-const boundary = '-------314159265358979323846';
-const delimiter = "\r\n--" + boundary + "\r\n";
-const close_delim = "\r\n--" + boundary + "--";
+	const boundary = '-------314159265358979323846';
+	const delimiter = "\r\n--" + boundary + "\r\n";
+	const close_delim = "\r\n--" + boundary + "--";
 
-  var contentType = 'application/octet-stream';
-  var metadata = {
-    'title': 'pass.data',
-    'mimeType': contentType
-  };
+	var contentType = 'application/octet-stream';
+	var metadata = {
+		'title': 'pass.data',
+		'mimeType': contentType
+	};
 
-  var base64Data = btoa(data);
-  var multipartRequestBody =
-      delimiter +
-      'Content-Type: application/json\r\n\r\n' +
-      JSON.stringify(metadata) +
-      delimiter +
-      'Content-Type: ' + contentType + '\r\n' +
-      'Content-Transfer-Encoding: base64\r\n' +
-      '\r\n' +
-      base64Data +
-      close_delim;
+	var base64Data = btoa(data);
+	var multipartRequestBody =
+		delimiter +
+		'Content-Type: application/json\r\n\r\n' +
+		JSON.stringify(metadata) +
+		delimiter +
+		'Content-Type: ' + contentType + '\r\n' +
+		'Content-Transfer-Encoding: base64\r\n' +
+		'\r\n' +
+		base64Data +
+		close_delim;
 
-  var request = gapi.client.request({
-      'path': '/upload/drive/v2/files',
-      'method': 'POST',
-      'params': {'uploadType': 'multipart'},
-      'headers': {
-        'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-      },
-      'body': multipartRequestBody});
+	var request = gapi.client.request({
+		'path': '/upload/drive/v2/files',
+		'method': 'POST',
+		'params': {'uploadType': 'multipart'},
+		'headers': {
+			'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+		},
+		'body': multipartRequestBody});
 
-  if (!callback) {
-    callback = function(file) {
-      console.log(file)
-    };
-  }
-  request.execute(callback);
+	if (!callback) {
+		callback = function(file) {
+			console.log(file)
+		};
+	}
+	request.execute(callback);
 }
