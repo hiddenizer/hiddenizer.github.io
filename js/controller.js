@@ -30,7 +30,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
             $scope.$apply(function(){
 				$scope.show_password_panel = false;
 			    $scope.list_panel = true;
-            }
+            });
 		});
 	}
 
