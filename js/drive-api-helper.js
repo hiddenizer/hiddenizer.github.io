@@ -83,28 +83,28 @@ function loadFile(callback) {
     var request = gapi.client.request({
         'path': '/drive/v2/files',
         'method': 'GET',
-        'params': {'q': "title contains 'pass.data'"});
+        'params': {'q': "title contains 'pass.data'"}
+    });
 
-        request.execute(function(data) {
-            fileId = data.items[0].id;
-            console.log(fileId);
+    request.execute(function(data) {
+        fileId = data.items[0].id;
+        console.log(fileId);
 
-            var request2 = gapi.client.request({
-                'path': '/drive/v2/files/' + fileId,
+        var request2 = gapi.client.request({
+            'path': '/drive/v2/files/' + fileId,
+            'method': 'GET'});
+
+        request2.execute(function(data2) {
+            data2.webContentLink;
+
+            var request3 = gapi.client.request({
+                'path': data2.webContentLink,
                 'method': 'GET'});
 
-            request2.execute(function(data2) {
-                data2.webContentLink;
-
-                var request3 = gapi.client.request({
-                    'path': data2.webContentLink,
-                    'method': 'GET'});
-
-                request3.execute(function(data3) {
-                    console.log(data3);
-                }
-            }
-        }
+            request3.execute(function(data3) {
+                console.log(data3);
+            });
+        });
     });
 }
 
