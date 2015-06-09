@@ -60,7 +60,7 @@ function uploadFile(data) {
  */
 function hasPassdataFile(callback) {
 	searchPassdataFile(function(data) {
-			callback(data.items.length > 0);
+		callback(data.items.length > 0);
 	});
 }
 

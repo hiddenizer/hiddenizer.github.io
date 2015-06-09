@@ -36,7 +36,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 	$scope.encryptAndSave = function() {
 		console.log("Encrypting registers...");
-		encrypted = encrypt(JSON.stringify($scope.database), $scope.password);
+		encrypted = encrypt($scope.database, $scope.password);
 		console.log("Register encrypted.");
 
 		console.log("Uploading file 'pass.data' to Google Drive...");
