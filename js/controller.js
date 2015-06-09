@@ -51,7 +51,9 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 			if (!data) {
 				//insertFile('');
 				console.log("Can not found 'pass.data'.");
-				$scope.database = [];
+                $scope.$apply(function(){
+				    $scope.database = [];
+                }
 				callback();
 				return;
 			}
@@ -59,7 +61,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 			console.log("Decrypting file 'pass.data'...");
             $scope.$apply(function(){
-    			$scope.database = decrypt(data, $scope.password);
+    			$scope.database = JSON.parse(decrypt(data, $scope.password));
                 console.log($scope.database);
             });
 			console.log("File 'pass.data' decrypted.");
