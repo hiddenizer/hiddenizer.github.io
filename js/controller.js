@@ -25,6 +25,8 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
         $scope.show_password_panel = false;
         $scope.list_panel = true;
+
+        $scope.loadDatabase();
     }
 
     $scope.saveDatabase = function() {
@@ -33,7 +35,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
     }
 
     $scope.loadDatabase = function() {
-        data = getFile();
+        //data = getFile();
         if (!data) {
             $scope.database = [];
             return;
@@ -44,10 +46,8 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
     $scope.addRegister = function() {
         $scope.database.push($scope.register);
         $scope.register = {};
-        $scope.addNewRegister = false;
+        $scope.new_register_panel = false;
         console.log("Registro salvo com sucesso.");
     }
-
-    window.setTimeout($scope.loadDatabase(), 1000);
 
 }]);
