@@ -61,7 +61,12 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 			console.log("Decrypting file 'pass.data'...");
             $scope.$apply(function(){
-    			$scope.database = JSON.parse(decrypt(data, $scope.password));
+				decrypted = decrypt(data, $scope.password);
+				while (typeof(decrypted) == "string"){}
+					decrypted = JSON.parse(decrypted);
+				}
+
+    			$scope.database = decrypted;
                 console.log($scope.database);
             });
 			console.log("File 'pass.data' decrypted.");
