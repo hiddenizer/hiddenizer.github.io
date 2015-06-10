@@ -42,7 +42,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 			console.log("Ciphering: ");
 			console.log($scope.database);
 		}
-		encrypted = encrypt($scope.database, $scope.password);
+		encrypted = encrypt(JSON.stringify($scope.database), $scope.password);
 		console.log("Register encrypted.");
 		if (DEBUG) {
 			console.log("Ciphering: ");
