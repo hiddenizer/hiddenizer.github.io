@@ -39,7 +39,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 	$scope.encryptAndSave = function() {
 		console.log("Encrypting registers...");
 		if (DEBUG) {
-			console.log("Ciphering: ");
+			console.log("Ciphering with password " + $scope.password + ":");
 			console.log($scope.database);
 		}
 		encrypted = encrypt(JSON.stringify($scope.database), $scope.password);
@@ -76,7 +76,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 				}
 
 				if (DEBUG) {
-					console.log("Decyphering: ");
+					console.log("Decyphering with password " + $scope.password + ":");
 					console.log(data);
 				}
 				decrypted = decrypt(data, $scope.password);
