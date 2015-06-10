@@ -1,5 +1,7 @@
 var rhasesQuestionsApp = angular.module('shadonizeApp', []);
 
+var DEBUG = true;
+
 rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
 	$scope.database = [];
@@ -36,11 +38,16 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 	$scope.encryptAndSave = function() {
 		console.log("Encrypting registers...");
-		console.log("Ciphering: ");
-		console.log($scope.database);
+		if (DEBUG) {
+			console.log("Ciphering: ");
+			console.log($scope.database);
+		}
 		encrypted = encrypt($scope.database, $scope.password);
 		console.log("Register encrypted.");
-		console.log(encrypted);
+		if (DEBUG) {
+			console.log("Ciphering: ");
+			console.log(encrypted);
+		}
 
 		console.log("Uploading file 'pass.data' to Google Drive...");
 		uploadFile(encrypted);
@@ -64,9 +71,20 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 			console.log("Decrypting file 'pass.data'...");
             $scope.$apply(function(){
+				if (DEBUG) {
+					console.log("Decyphering: ");
+					console.log(decrypted);
+				}
 				decrypted = decrypt(data, $scope.password);
+				if (DEBUG) {
+					console.log("Decrypted is: ");
+					console.log(decrypted);
+				}
 				while (typeof(decrypted) == "string") {
 					decrypted = JSON.parse(decrypted);
+				}
+				if (DEBUG) {
+					console.log(decrypted);
 				}
 
     			$scope.database = decrypted;
