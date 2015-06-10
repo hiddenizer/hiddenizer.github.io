@@ -73,7 +73,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
             $scope.$apply(function(){
 				if (DEBUG) {
 					console.log("Decyphering: ");
-					console.log(decrypted);
+					console.log(data);
 				}
 				decrypted = decrypt(data, $scope.password);
 				if (DEBUG) {
