@@ -1,8 +1,8 @@
-var rhasesQuestionsApp = angular.module('shadonizeApp', []);
+var shadonizeApp = angular.module('shadonizeApp', []);
 
 var DEBUG = true;
 
-rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+shadonizeApp.controller('ShadonizeController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
 	$scope.database = [];
 	$scope.register = {};
@@ -12,6 +12,18 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 	$scope.password = '';
 	$scope.confirmation = '';
+
+	$scope.fileId = undefined;
+
+	hasPassdataFile(function(has){
+		if (!has) {
+			$scope.$apply(function(){
+				$scope.show_password_panel = false;
+				$scope.new_register_panel = true;
+				$scope.list_panel = true;
+			});
+		}
+	})
 
 	$scope.loadAndDecrypt = function() {
 		password = $scope.password;
@@ -50,16 +62,25 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 		}
 
 		console.log("Uploading file 'pass.data' to Google Drive...");
-		uploadFile(encrypted);
+		updatePassdata($scope.fileId, encrypted,
+			function(err) {
+				if (err)
+					throw 'Erro when system try save database. ' + err;
+
+				alert('Senhas salvas com sucesso.');
+				$scope.$apply(function() {
+					$scope.show_password_panel = true;
+					$scope.new_register_panel = false;
+				    $scope.list_panel = false;
+	            });
+			});
 		console.log("File 'pass.data' uploaded to Google Drive...");
 	}
 
 	$scope.loadDatabase = function(callback) {
-		//data = getFile();
 		console.log("Downloading file 'pass.data' from Google Drive...");
-		data  = downloadPassdataFile(function(data) {
+		data  = downloadPassdataFile(function(fileId, data) {
 			if (!data) {
-				//insertFile('');
 				console.log("Can not found 'pass.data'.");
                 $scope.$apply(function(){
 				    $scope.database = [];
@@ -71,6 +92,7 @@ rhasesQuestionsApp.controller('ShadonizeController', ['$scope', '$http', '$locat
 
 			console.log("Decrypting file 'pass.data'...");
             $scope.$apply(function(){
+				$scope.fileId = fileId;
 				while (typeof(data) != "string") {
 					data = JSON.stringify(data);
 				}
