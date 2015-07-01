@@ -2,11 +2,11 @@ var shadonizeApp = angular.module('shadonizeApp', []);
 
 var DEBUG = true;
 
-shadonizeApp.controller('ShadonizeController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+shadonizeApp.controller('ShadonizeController', ['$scope', '$http', '$location', '$timeout', function($scope, $http, $location, $timeout) {
 
 	$scope.database = [];
 	$scope.register = {};
-	$scope.show_password_panel = true;
+	$scope.show_password_panel = false;
 	$scope.new_register_panel = false;
 	$scope.list_panel = false;
 
@@ -15,15 +15,23 @@ shadonizeApp.controller('ShadonizeController', ['$scope', '$http', '$location', 
 
 	$scope.fileId = undefined;
 
-	hasPassdataFile(function(has){
-		if (!has) {
-			$scope.$apply(function(){
-				$scope.show_password_panel = false;
-				$scope.new_register_panel = true;
-				$scope.list_panel = true;
-			});
-		}
-	})
+	$timeout(function() {
+		hasPassdataFile(function(has){
+			if (has) {
+				$scope.$apply(function(){
+					$scope.show_password_panel = true;
+					$scope.new_register_panel = false;
+					$scope.list_panel = false;
+				});
+			} else {
+				$scope.$apply(function(){
+					$scope.show_password_panel = false;
+					$scope.new_register_panel = true;
+					$scope.list_panel = true;
+				});
+			}
+		})
+	}, 5000);
 
 	$scope.loadAndDecrypt = function() {
 		password = $scope.password;
