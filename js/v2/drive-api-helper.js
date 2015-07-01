@@ -223,41 +223,35 @@ function insertFile(data, callback) {
  * @param {File} fileData File object to read data from.
  * @param {Function} callback Callback function to call when the request is complete.
  */
-function updateFile(fileId, fileMetadata, fileData, callback) {
-  const boundary = '-------314159265358979323846';
-  const delimiter = "\r\n--" + boundary + "\r\n";
-  const close_delim = "\r\n--" + boundary + "--";
+function updateFile(fileId, data, callback) {
+	const boundary = '-------314159265358979323846';
+	const delimiter = "\r\n--" + boundary + "\r\n";
+	const close_delim = "\r\n--" + boundary + "--";
+	var contentType = 'application/octet-stream';
+	// Updating the metadata is optional and you can instead use the value from drive.files.get.
+	var base64Data = btoa(data);
+	var multipartRequestBody =
+	    delimiter +
+	    'Content-Type: application/json\r\n\r\n' +
+	    delimiter +
+	    'Content-Type: ' + contentType + '\r\n' +
+	    'Content-Transfer-Encoding: base64\r\n' +
+	    '\r\n' +
+	    base64Data +
+	    close_delim;
 
-  var reader = new FileReader();
-  reader.readAsBinaryString(fileData);
-  reader.onload = function(e) {
-    var contentType = fileData.type || 'application/octet-stream';
-    // Updating the metadata is optional and you can instead use the value from drive.files.get.
-    var base64Data = btoa(reader.result);
-    var multipartRequestBody =
-        delimiter +
-        'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(fileMetadata) +
-        delimiter +
-        'Content-Type: ' + contentType + '\r\n' +
-        'Content-Transfer-Encoding: base64\r\n' +
-        '\r\n' +
-        base64Data +
-        close_delim;
-
-    var request = gapi.client.request({
-        'path': '/upload/drive/v2/files/' + fileId,
-        'method': 'PUT',
-        'params': {'uploadType': 'multipart', 'alt': 'json'},
-        'headers': {
-          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-        },
-        'body': multipartRequestBody});
-    if (!callback) {
-      callback = function(file) {
-        console.log(file)
-      };
-    }
-    request.execute(callback);
-  }
+	var request = gapi.client.request({
+	    'path': '/upload/drive/v2/files/' + fileId,
+	    'method': 'PUT',
+	    'params': {'uploadType': 'multipart', 'alt': 'json'},
+	    'headers': {
+	      'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+	    },
+	    'body': multipartRequestBody});
+	if (!callback) {
+	  callback = function(file) {
+	    console.log(file)
+	  };
+	}
+	request.execute(callback);
 }
