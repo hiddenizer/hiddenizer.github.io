@@ -1,10 +1,11 @@
+"use strict";
 
 // random numbers generator
 var prng = sjcl.random;
 
 // characters for a randomly generated password
-var pwdSafeLetters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-var pwdUnsafeLetters = " !#$%&)*+,-./:;<=>?@]^_`|}"
+var pwdSafeLetters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+var pwdUnsafeLetters = " !#$%&)*+,-./:;<=>?@]^_`|}";
 var pwdAllLetters = pwdSafeLetters + pwdUnsafeLetters;
 
 // start adding entropy to PRNG
@@ -34,22 +35,14 @@ function readPassword() {
 
 	// get fields and read values
 	var passwordField = document.getElementById('passwordField');
-	var confirmField = document.getElementById('confirmField');
 	var password = passwordField.value;
-	var confirmation = confirmField.value;
 
 	// clear fields
 	passwordField.value = '';
-	confirmField.value = '';
 
 	// assert not blank
 	if (password === '') {
 		throw 'Password cannot be blank!';
-	}
-
-	// assert password and confirmation match
-	if (password !== confirmation) {
-		throw 'Password and confirmation must match!';
 	}
 
 	return password;
@@ -61,7 +54,7 @@ function encrypt() {
 		var contentField = document.getElementById('contentField');
 		var password = readPassword();
 		var encrypted = sjcl.encrypt(password, contentField.value);
-		contentField.value = encrypted;		
+		contentField.value = encrypted;
 	} catch(err) {
 		alert(err);
 	}

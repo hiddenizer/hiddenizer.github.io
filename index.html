@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<title>Shadownize</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
 	<link rel="stylesheet" href="css/style.css">
 </head>
-	
+
 <body>
 	<h1>Shadownize</h1>
 	<label for="randomField" class="inline-label">Randomize:</label>
@@ -19,76 +19,10 @@
 	<label for="passwordField" class="inline-label">Password:</label>
 	<input type="password" id="passwordField">
 	<br>
-	<label for="confirmField" class="inline-label">Repeat Password:</label>
-	<input type="password" id="confirmField">
-	<p>
-	<input type="button" id="encryptBtn" value="Encrypt" onclick="encrypt()">
 	<input type="button" id="decryptBtn" value="Decrypt" onclick="decrypt()">
+	<input type="button" id="encryptBtn" value="Encrypt" onclick="encrypt()">
 
-	<h2>Em desenvolvimento...</h2>
-
-	<!--Add a file picker for the user to start the upload process -->
-    <input type="button" id="authorizeButton" style="display: none" value="Login"></input>
-
-	<div ng-controller="ShadonizeController" ng-app="shadonizeApp" class="container">
-		<div id="content" style="display: none" ng-view>
-
-			<div ng-show="show_password_panel">
-				<label for="passwordField" style="display: inline-block; width: 100px;">Senha:</label>
-				<input type="password" id="passwordField" ng-model="password">
-				<br>
-				<label for="confirmField" style="display: inline-block; width: 100px;">Repita a senha:</label>
-				<input type="password" id="confirmField" ng-model="confirmation">
-				<br>
-				<button ng-click="loadAndDecrypt()">Load And Decrypt</button>
-			</div>
-
-			<div ng-show="new_register_panel">
-				<label for="nameField" style="display: inline-block; width: 100px;">Nome:</label>
-				<input id="nameField" ng-model="register.name"></input>
-				<br>
-				<label for="userField" style="display: inline-block; width: 100px;">Usuário:</label>
-				<input id="userField" ng-model="register.user"></input>
-				<br>
-				<label for="passField" style="display: inline-block; width: 100px;">Senha:</label>
-				<input type="password" id="passField" ng-model="register.password"></input>
-				<br>
-				<label for="descField" style="display: inline-block; width: 100px;">Descrição:</label>
-				<textarea id="descField" ng-model="register.description"></textarea>
-				<br>
-				<button ng-click="addRegister()">OK</button>
-			</div>
-
-			<div ng-show="list_panel">
-				<br>
-
-				<button ng-click="new_register_panel = true">New</button>
-
-				<div ng-repeat="reg in database">
-					<p>
-						Nome: {{ reg.name }} <br>
-						Usuário: {{ reg.user }} <br>
-					    Senha: {{ reg.password }} <br>
-						Descrição: {{ reg.description }} <br>
-					</p>
-				</div>
-				{{ database.length }} registros.
-
-				<br>
-
-				<button ng-click="encryptAndSave()">Encrypt and Store</button>
-			</div>
-		</div>
-	</div>
-	
 	<script src="https://bitwiseshiftleft.github.io/sjcl/sjcl.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-	<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	<script src="js/drive-api-helper.js"></script>
-	<script src="js/security-helper.js"></script>
-	<script src="js/controller.js"></script>
 	<script src="js/control.js"></script>
 </body>
 
