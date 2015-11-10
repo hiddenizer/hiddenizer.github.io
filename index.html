@@ -1,29 +1,46 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>Shadownize</title>
+	<title>Shadownizer</title>
 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-	<h1>Shadownize</h1>
-	<label for="randomField" class="inline-label">Randomize:</label>
-	<input type="text" id="randomField">
-	<input type="button" id="generateBtn" value="Generate" onclick="generate()">
-	<p>
-	<label for="contentField" class="inline-label">Content:</label>
-	<textarea id="contentField" class="inline-field" rows="20" cols="60"></textarea>
-	<p>
-	<label for="passwordField" class="inline-label">Password:</label>
-	<input type="password" id="passwordField">
-	<br>
-	<input type="button" id="decryptBtn" value="Decrypt" onclick="decrypt()">
-	<input type="button" id="encryptBtn" value="Encrypt" onclick="encrypt()">
+	<div class="container-fluid height-grid">
+		<div class="top-header">
+			<h1 class="col-xs-12 text-center">Shadownizer</h1>
+		</div>
+		<div class="menu-bar">
+			<button type="button" class="btn btn-default col-xs-4">
+				<span class="glyphicon glyphicon-edit"></span>
+				<span class="hidden-xs">Load &amp; Decrypt</span>
+			</button>
+			<button type="button" class="btn btn-default col-xs-4">
+				<span class="glyphicon glyphicon-lock"></span>
+				<span class="hidden-xs">Encrypt &amp; Save</span>
+			</button>
+			<button type="button" class="btn btn-default col-xs-4">
+				<span class="glyphicon glyphicon-asterisk"></span>
+				<span class="hidden-xs">Generate Password</span>
+			</button>
+		</div>
+		<div class="height-grid">
+			<textarea class="form-control height-cell no-resize no-top-radius"></textarea>
+		</div>
+	</div>
 
 	<script src="https://bitwiseshiftleft.github.io/sjcl/sjcl.js"></script>
-	<script src="js/control.js"></script>
+	<script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="js/security-helper.js"></script>
+	<script src="js/drive-api-helper.js"></script>
+	<script src="js/controller.js"></script>
 </body>
 
 </html>

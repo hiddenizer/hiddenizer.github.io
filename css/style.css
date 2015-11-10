@@ -1,13 +1,39 @@
-
-/* labels at left-side of fields */
-.inline-label {
-	display: inline-block;
-	width: 120px;
-	font-style: normal;
-	font-size: 12px;
+body {
+  background-color: #4682B4;
+  font-family: monospace;
 }
 
-/* fields at right-side of labels */
-.inline-field {
-	vertical-align: text-top;
+.height-grid {
+    display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+}
+
+.height-cell {
+	flex: 1;
+}
+
+.top-header {
+	color: white;
+}
+
+.menu-bar {
+	background-color: #F5F5F5;
+	padding: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.menu-bar .menu-item {
+	margin: 1px;
+}
+
+.no-resize {
+	resize: none;
+}
+
+.no-top-radius {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
