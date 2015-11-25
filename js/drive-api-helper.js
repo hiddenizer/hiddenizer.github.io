@@ -1,5 +1,5 @@
-var CLIENT_ID = '330949250781-torme3rlgtome44ep48v3qc7ch0lv5sd.apps.googleusercontent.com';
-var SCOPES = 'https://www.googleapis.com/auth/drive';
+var CLIENT_ID = '780199501376-q7dm26lauueljp43upe0jdt6jje5s255.apps.googleusercontent.com';
+var SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 /**
  * Called when the client library is loaded to start the auth flow.
