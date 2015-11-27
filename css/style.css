@@ -5,35 +5,35 @@ body {
 
 .height-grid {
     display: flex;
-	flex-direction: column;
-	flex: 1;
-	height: 100%;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
 }
 
 .height-cell {
-	flex: 1;
+    flex: 1;
 }
 
 .top-header {
-	color: white;
+    color: white;
 }
 
 .menu-bar {
-	background-color: #F5F5F5;
-	padding: 4px;
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
+    background-color: #F5F5F5;
+    padding: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .menu-bar .menu-item {
-	margin: 1px;
+    margin: 1px;
 }
 
 .no-resize {
-	resize: none;
+    resize: none;
 }
 
 .no-top-radius {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
