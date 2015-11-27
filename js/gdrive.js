@@ -21,12 +21,12 @@
 				var accessToken = gapi.auth.getToken().access_token;
 				var fileId = resp.items[0].id;
 				var xhr = new XMLHttpRequest();
-		    xhr.open('GET', 'https://www.googleapis.com/drive/v2/files/'+fileId+'?alt=media');
-		    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-		    xhr.onload = function() {
-		      resolve(xhr.responseText);
-		    };
-		    xhr.send();
+				xhr.open('GET', 'https://www.googleapis.com/drive/v2/files/'+fileId+'?alt=media');
+				xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+				xhr.onload = function() {
+					resolve(xhr.responseText);
+				};
+				xhr.send();
 			});
 		});
 	};
