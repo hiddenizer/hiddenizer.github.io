@@ -1,33 +1,34 @@
 (function(global) {
     var module = {};
 
-    /** Password to protected the passwords file. */
-    module.password = null;
-
-    module.passwordDeferred = $.Deferred();
+    /** Password's value and resolve function. */
+    module.password = {
+        value: null,
+        resolve: null,
+    };
 
     /**
-     * Load the value of <code>module.password</code>.
+     * Load the password.
      *
-     * This function returns a promise of the value of the password to decrypt
-     * the file. The password is asked to the user using a modal.
+     * The password is asked to the user using a modal. The password is also set
+     * at <code>module.password.value</code>.
      *
-     * In addition to fullfilling the promise, the password is also set at
-     * <code>module.password</code>.
-     *
-     * @return {Promise} Promise of the password.
+     * @return {Promise} Password's promise.
      */
     function loadPassword() {
-        if (module.password) {
-            return Promise.resolve(module.password);
-        }
         $('#passwordModal').modal();
-        return module.passwordDeferred.promise();
+        return new Promise(function(resolve, reject) {
+            module.password.resolve = resolve;
+        });
     }
 
+    /**
+     * Resolve the password's promise with the value from
+     * <code>passwordField</code>.
+     */
     function enterPassword() {
-        module.password = $('#passwordField').val();
-        module.passwordDeferred.resolve(module.password);
+        module.password.value = $('#passwordField').val();
+        module.password.resolve(module.password);
     }
 
     // handle click on load button
@@ -35,7 +36,7 @@
         loadPassword()
         .then(gdrive.load)
         .then(function(cipheredText) {
-            clearText = scrypto.decrypt(cipheredText, module.password);
+            clearText = scrypto.decrypt(cipheredText, module.password.value);
             $('#contentArea').val(clearText);
         });
     });
@@ -45,6 +46,7 @@
         $('#passwordField').focus();
     });
 
+    // resolve the password's promise on 'enter' at password's modal
     $('#passwordEnterBtn').click(enterPassword);
     $('#passwordField').keyup(function(event) {
         if (event.keyCode === 13) {
