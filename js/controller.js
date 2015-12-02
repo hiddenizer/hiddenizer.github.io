@@ -55,5 +55,37 @@
         }
     });
 
+    // handle click on saven button
+    $('#saveBtn').click(function() {
+        clearText = $('#contentArea').val();
+        cipheredText = scrypto.encrypt(clearText, module.password.value);
+        gdrive.save(cipheredText)
+        .then(function() {
+            $('#contentArea').val('Saved');
+        });
+    })
+
+    // handle click on generate button
+    $('#generateBtn').click(function() {
+        // generate new password
+        var passwd = scrypto.generate();
+        // get field, value and scroll position
+        var field = $('#contentArea');
+        var oldValue = field.val();
+        // replace selected text with new password
+        var scrollPos = field.scrollTop();
+        var startPos = field.prop('selectionStart');
+        var endPos = field.prop('selectionEnd');
+        field.val(oldValue.substring(0, startPos) + passwd + oldValue.substring(endPos, oldValue.length));
+        // select the inserted password
+        field.focus();
+        field.prop('selectionStart', startPos);
+        field.prop('selectionEnd', startPos + passwd.length);
+        // copy new password to clipboard
+        document.execCommand('copy');
+        // adjust scroll position
+        field.scrollTop(scrollPos);
+    });
+
     global.controller = module;
 })(this);

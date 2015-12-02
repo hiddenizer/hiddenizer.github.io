@@ -21,7 +21,7 @@
      */
     module.encrypt = function(data, password) {
         return sjcl.encrypt(password, data);
-    }
+    };
 
     /**
      * Decrypt some text using AES 128.
@@ -32,7 +32,18 @@
      */
     module.decrypt = function(data, password) {
         return sjcl.decrypt(password, data);
-    }
+    };
+
+    module.generate = function(safeOnly) {
+        var letters = safeOnly ? pwdSafeLetters : pwdAllLetters;
+        var randNums = module.prng.randomWords(15);
+        var randChars = '';
+        for (var i = 0; i < randNums.length; i++) {
+            var charPos = Math.abs(randNums[i] % letters.length);
+            randChars += letters.charAt(charPos);
+        }
+        return randChars;
+    };
 
     global.scrypto = module;
 })(this);

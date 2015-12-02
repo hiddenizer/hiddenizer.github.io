@@ -6,8 +6,10 @@
     // required permissions
     var SCOPES = ['https://www.googleapis.com/auth/drive'];
 
+    module.fileId = null;
+
     /**
-     * Load the password file's content.
+     * Load the password file's.
      *
      * The Google Drive API is automatically loaded and authorized.
      * The password's file must be named <code>passwords.shadow</code> and only
@@ -17,7 +19,7 @@
      */
     module.load = function() {
         // authorize app with google drive
-        return gapi.auth.authorize({client_id: CLIENT_ID, scope: SCOPES})
+        return gapi.auth.authorize({client_id: CLIENT_ID, scope: SCOPES, immediate: true})
         // load google drive api
         .then(function() {
             return gapi.client.load('drive', 'v2');
@@ -35,15 +37,34 @@
         }).then(function(response) {
             return new Promise(function(resolve, reject) {
                 var accessToken = gapi.auth.getToken().access_token;
-                var fileId = response.items[0].id;
+                module.fileId = response.items[0].id;
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://www.googleapis.com/drive/v2/files/'+fileId+'?alt=media');
+                xhr.open('GET', 'https://www.googleapis.com/drive/v2/files/'+module.fileId+'?alt=media');
                 xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                 xhr.onload = function() {
                     resolve(xhr.responseText);
                 };
                 xhr.send();
             });
+        });
+    };
+
+    /**
+     * TODO: document
+     */
+    module.save = function(content) {
+        return new Promise(function(resolve, reject) {
+            var accessToken = gapi.auth.getToken().access_token;
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', 'https://www.googleapis.com/upload/drive/v2/files/'+module.fileId+'?uploadType=media&newRevision=true&pinned=true');
+            xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+            xhr.onload = function() {
+                resolve();
+            };
+            xhr.onerror = function() {
+                reject();
+            };
+            xhr.send(content);
         });
     };
 
