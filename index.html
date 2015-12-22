@@ -11,10 +11,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/xeditable.css">
+    <link rel="stylesheet" href="css/ui-bootstrap-0.14.3-csp.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
 
-<body>
-    <div class="container-fluid height-grid">
+<body ng-app="shadownizerApp">
+    <div ng-controller="shadownizer" class="container-fluid height-grid">
 
         <!-- Title Header -->
         <div class="top-header">
@@ -37,29 +41,32 @@
             </button>
         </div>
 
-        <!-- Content Area -->
-        <div class="height-grid">
-            <textarea id="contentArea" class="form-control height-cell no-resize no-top-radius"></textarea>
-        </div>
-    </div>
 
-    <!-- Password Modal -->
-    <div id="passwordModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" data-dismiss="modal" class="close">&times;</button>
-                    <h2 class="modal-title">File's password</h4>
+        <!-- Content Area -->
+        <div class="height-grid" style="background-color: white;">
+            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+
+            {{ records }}
+
+            <div ng-repeat="record in records">
+                <h2>{{ record.name }}</h2>
+
+                <div ng-repeat="(key, value) in record">
+                    <span href="#" editable-text="key" buttons="no" >{{ key || 'empty' }}:</span>
+                    <span href="#" editable-text="record[key]" buttons="no" >{{ value || 'empty' }}</span>
+                    <br>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="pwd">Password:</label>
-                        <input type="password" id="passwordField" class="form-control">
-                    </div>
-                <button type="submit" id="passwordEnterBtn" data-dismiss="modal" class="btn btn-primary btn-md">Enter</button>
-                </div>
+
+                <span href="#" editable-text="key" buttons="no" >{{ key || 'empty' }}:</span>
+                <span href="#" editable-text="record[key]" onaftersave="cleanKey()" buttons="no" >{{ value || 'empty' }}</span>
+
+                <!-- <a ng-click="newAttibute(record)">New attribute</a> -->
             </div>
 
+            <br />
+            <br />
+
+            <a ng-click="newSite()">New Site</a>
         </div>
     </div>
 
@@ -67,10 +74,29 @@
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/scrypto.js"></script>
-    <script src="js/gdrive.js"></script>
-    <script src="js/controller.js"></script>
+    <script src="js/xeditable.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <!-- <script src="js/utils.js"></script> -->
+    <!-- <script src="js/scrypto.js"></script> -->
+    <!-- <script src="js/gdrive.js"></script> -->
+    <!-- <script src="js/controller.js"></script> -->
+    <script src="js/angular/controller.js"></script>
+    <script src="js/angular/gdrive.js"></script>
+    <script src="js/angular/scrypto.js"></script>
+
+    <script type="text/ng-template" id="passwordModal.html">
+        <div class="modal-header">
+            <button type="button" data-dismiss="modal" class="close">&times;</button>
+            <h2 class="modal-title">Files password</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" id="passwordField" class="form-control" ng-model="password">
+            </div>
+            <button id="passwordEnterBtn" ng-click="ok()" class="btn btn-primary btn-md">Enter</button>
+        </div>
+    </script>
 </body>
 
 </html>
