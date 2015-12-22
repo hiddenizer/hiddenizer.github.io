@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/xeditable.css">
     <link rel="stylesheet" href="css/ui-bootstrap-0.14.3-csp.css">
+    <link rel="stylesheet" href="css/loading-bar.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
@@ -27,46 +28,43 @@
 
         <!-- Menu Bar -->
         <div class="menu-bar">
-            <button type="button" id="loadBtn" class="btn btn-default col-xs-4">
+            <button type="button" id="loadBtn" ng-click="load();" class="btn btn-default col-xs-4">
                 <span class="fa fa-unlock"></span>
                 <span class="hidden-xs">Load &amp; Decrypt</span>
             </button>
-            <button type="button" id="saveBtn" class="btn btn-default col-xs-4">
+            <button type="button" id="saveBtn" ng-click="save();" class="btn btn-default col-xs-4">
                 <span class="fa fa-lock"></span>
                 <span class="hidden-xs">Encrypt &amp; Save</span>
             </button>
-            <button type="button" id="generateBtn" class="btn btn-default col-xs-4">
+            <button type="button" id="generateBtn" class="btn btn-default col-xs-4 disabled">
                 <span class="fa fa-asterisk"></span>
                 <span class="hidden-xs">Generate Password</span>
             </button>
         </div>
 
-
         <!-- Content Area -->
         <div class="height-grid" style="background-color: white;">
             <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 
-            {{ records }}
+            <div ng-hide="working()">
+                <div ng-repeat="record in records">
+                    <h2>{{ record.name }}</h2>
 
-            <div ng-repeat="record in records">
-                <h2>{{ record.name }}</h2>
+                    <div ng-repeat="(key, value) in record">
+                        <span>{{ key || 'empty' }}:</span>
+                        <span href="#" editable-text="record[key]" buttons="no" >{{ value || 'empty' }}</span>
+                        <br>
+                    </div>
 
-                <div ng-repeat="(key, value) in record">
-                    <span href="#" editable-text="key" buttons="no" >{{ key || 'empty' }}:</span>
-                    <span href="#" editable-text="record[key]" buttons="no" >{{ value || 'empty' }}</span>
-                    <br>
+                    <span href="#" editable-text="newKey" buttons="no" >{{ newKey || 'empty' }}:</span>
+                    <span href="#" editable-text="record[newKey]" onaftersave="newKey = ''" buttons="no" >{{ value || 'empty' }}</span>
                 </div>
 
-                <span href="#" editable-text="key" buttons="no" >{{ key || 'empty' }}:</span>
-                <span href="#" editable-text="record[key]" onaftersave="cleanKey()" buttons="no" >{{ value || 'empty' }}</span>
+                <br />
+                <br />
 
-                <!-- <a ng-click="newAttibute(record)">New attribute</a> -->
+                <a ng-click="newSite()">New Site</a>
             </div>
-
-            <br />
-            <br />
-
-            <a ng-click="newSite()">New Site</a>
         </div>
     </div>
 
@@ -76,10 +74,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="js/xeditable.min.js"></script>
     <script src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
-    <!-- <script src="js/utils.js"></script> -->
-    <!-- <script src="js/scrypto.js"></script> -->
-    <!-- <script src="js/gdrive.js"></script> -->
-    <!-- <script src="js/controller.js"></script> -->
+    <script src="js/loading-bar.min.js"></script>
     <script src="js/angular/controller.js"></script>
     <script src="js/angular/gdrive.js"></script>
     <script src="js/angular/scrypto.js"></script>
@@ -87,7 +82,7 @@
     <script type="text/ng-template" id="passwordModal.html">
         <div class="modal-header">
             <button type="button" data-dismiss="modal" class="close">&times;</button>
-            <h2 class="modal-title">Files password</h4>
+            <h2 class="modal-title">File''s password</h4>
         </div>
         <div class="modal-body">
             <div class="form-group">

@@ -1,6 +1,6 @@
 angular
 .module('shadownizerApp')
-.factory('gdrive', [function() {
+.factory('gdrive', ['$q', function($q) {
     var module = {};
 
     // our google apps ID
@@ -37,7 +37,7 @@ angular
             });
         // read the file content
         }).then(function(response) {
-            return new Promise(function(resolve, reject) {
+            return $q(function(resolve, reject) {
                 var accessToken = gapi.auth.getToken().access_token;
                 module.fileId = response.items[0].id;
                 var xhr = new XMLHttpRequest();
@@ -55,7 +55,7 @@ angular
      * TODO: document
      */
     module.save = function(content) {
-        return new Promise(function(resolve, reject) {
+        return $q(function(resolve, reject) {
             var accessToken = gapi.auth.getToken().access_token;
             var xhr = new XMLHttpRequest();
             xhr.open('PUT', 'https://www.googleapis.com/upload/drive/v2/files/'+module.fileId+'?uploadType=media&newRevision=true&pinned=true');
