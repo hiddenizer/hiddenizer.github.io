@@ -79,5 +79,5 @@ angular
 .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
     cfpLoadingBarProvider.includeBar  = true;
-    cfpLoadingBarProvider.spinnerTemplate = '<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div><div><span class="fa">Loading...</div>';
+    //cfpLoadingBarProvider.spinnerTemplate = '<div id="loading-bar"><div class="bar"><div class="peg"></div></div></div><div><span class="fa">Loading...</div>';
 }]);

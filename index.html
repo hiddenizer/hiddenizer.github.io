@@ -10,10 +10,10 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/xeditable.css">
     <link rel="stylesheet" href="css/ui-bootstrap-0.14.3-csp.css">
     <link rel="stylesheet" href="css/loading-bar.min.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
@@ -43,8 +43,15 @@
         </div>
 
         <!-- Content Area -->
-        <div class="height-grid" style="background-color: white;">
+        <div id="content" class="height-grid" style="background-color: white;">
             <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+
+            <div ng-show="working()">
+                <br />
+                <br />
+
+                Loading...
+            </div>
 
             <div ng-hide="working()">
                 <div ng-repeat="record in records">
