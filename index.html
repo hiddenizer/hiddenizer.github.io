@@ -63,8 +63,8 @@
                         <br>
                     </div>
 
-                    <span href="#" editable-text="newKey" buttons="no" >{{ newKey || 'empty' }}:</span>
-                    <span href="#" editable-text="record[newKey]" onaftersave="newKey = ''" buttons="no" >{{ value || 'empty' }}</span>
+                    <span href="#" editable-text="entry.key" buttons="no" >{{ entry.key || 'empty' }}:</span>
+                    <span href="#" editable-text="entry.value" onaftersave="saveEntry(entry, $index);" buttons="no" >{{ entry.value || 'empty' }}</span>
                 </div>
 
                 <br />
