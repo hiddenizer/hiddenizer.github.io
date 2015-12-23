@@ -59,3 +59,13 @@ body {
   border-top-color:  #2c3e50;
   border-left-color: #2c3e50;
 }
+
+/*
+ *
+ */
+#content {
+  background-color: white;
+  padding: 5px;
+  min-height: 150px;
+  font-size: 18px;
+}

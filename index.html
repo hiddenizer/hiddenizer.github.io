@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/xeditable.css">
     <link rel="stylesheet" href="css/ui-bootstrap-0.14.3-csp.css">
     <link rel="stylesheet" href="css/loading-bar.min.css">
+    <link rel="stylesheet" href="css/ball-clip-rotate-multiple.min.css">
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -43,34 +44,48 @@
         </div>
 
         <!-- Content Area -->
-        <div id="content" class="height-grid" style="background-color: white;">
-            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+        <div id="content">
+            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="5000" close="removeAlert($index)">{{alert.msg}}</uib-alert>
 
-            <div ng-show="working()">
-                <br />
+            <div class="col-xs-12 text-center" ng-show="working()">
                 <br />
 
-                Loading...
+                <div class="la-ball-clip-rotate-multiple la-dark la-2x">
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
 
-            <div ng-hide="working()">
-                <div ng-repeat="record in records">
+            <div class="raw" ng-hide="working()">
+                <div class="col-xs-12" ng-repeat="record in records">
                     <h2>{{ record.name }}</h2>
 
-                    <div ng-repeat="(key, value) in record">
+                    <div class="col-xs-12" ng-repeat="(key, value) in record">
                         <span>{{ key || 'empty' }}:</span>
                         <span href="#" editable-text="record[key]" buttons="no" >{{ value || 'empty' }}</span>
-                        <br>
+                        <a ng-click="remove(record, key)">
+                            <span class="fa fa-remove"></span>
+                        </a>
                     </div>
 
-                    <span href="#" editable-text="newKey" buttons="no" >{{ newKey || 'empty' }}:</span>
-                    <span href="#" editable-text="record[newKey]" onaftersave="newKey = ''" buttons="no" >{{ value || 'empty' }}</span>
+                    <div class="col-xs-12">
+                        <span href="#" editable-text="newKey" buttons="no" >{{ newKey || 'empty' }}:</span>
+                        <span href="#" editable-text="record[newKey]" onaftersave="newKey = ''" buttons="no" >{{ value || 'empty' }}</span>
+
+                        <hr />
+                        <br />
+                    </div>
+
                 </div>
 
                 <br />
                 <br />
 
-                <a ng-click="newSite()">New Site</a>
+                <a class="col-xs-12" ng-click="newSite()">
+                    <span class="fa fa-plus-circle"></span>
+                    <span class="hidden-xs">New Site</span>
+                </a>
+                <br />
             </div>
         </div>
     </div>
@@ -88,13 +103,13 @@
 
     <script type="text/ng-template" id="passwordModal.html">
         <div class="modal-header">
-            <button type="button" data-dismiss="modal" class="close">&times;</button>
+            <button type="button" ng-click="cancel()" class="close">&times;</button>
             <h2 class="modal-title">File''s password</h4>
         </div>
         <div class="modal-body">
             <div class="form-group">
                 <label for="pwd">Password:</label>
-                <input type="password" id="passwordField" class="form-control" ng-model="password">
+                <input type="password" id="passwordField" class="form-control" ng-model="password" ng-keyup="$event.keyCode == 13 ? ok() : null">
             </div>
             <button id="passwordEnterBtn" ng-click="ok()" class="btn btn-primary btn-md">Enter</button>
         </div>

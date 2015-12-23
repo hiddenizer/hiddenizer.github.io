@@ -24,11 +24,11 @@ angular
             try {
                 $scope.records = JSON.parse(scrypto.decrypt(cipheredText, $scope.password));
             } catch (e) {
-                $scope.alerts.push({type: 'danger', msg: 'Password is wrong!'});
+                $scope.addAlert({type: 'danger', msg: 'Password is wrong!'});
             }
         }).catch(function(e) {
             console.log(e);
-            $scope.alerts.push({type: 'danger', msg: 'Error on loading...'});
+            $scope.addAlert({type: 'danger', msg: 'Error on loading...'});
         }).finally(function() {
             cfpLoadingBar.complete();
         });
@@ -39,11 +39,11 @@ angular
         cipheredText = scrypto.encrypt(JSON.stringify($scope.records), $scope.password);
         gdrive.save(cipheredText)
         .then(function() {
-            $scope.alerts.push({type: 'success', msg: 'Saved!'});
+            $scope.addAlert({type: 'success', msg: 'Saved!'});
             $scope.records = [];
         }).catch(function(e) {
             console.log(e);
-            $scope.alerts.push({type: 'danger', msg: 'Error on saving...'});
+            $scope.addAlert({type: 'danger', msg: 'Error on saving...'});
         }).finally(function() {
             cfpLoadingBar.complete();
         });
@@ -62,6 +62,18 @@ angular
     $scope.status = function() {
         return cfpLoadingBar.status();
     }
+
+    $scope.remove = function(record, key) {
+        delete record[key];
+    }
+
+    $scope.addAlert = function(alert) {
+      $scope.alerts.push(alert);
+    };
+
+    $scope.removeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+    };
 
     $scope.load();
 }])
