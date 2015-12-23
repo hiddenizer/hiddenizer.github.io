@@ -63,6 +63,12 @@ angular
         return cfpLoadingBar.status();
     }
 
+    $scope.saveEntry = function(entry, index) {
+        $scope.records[index][entry.key] = entry.value;
+        delete $scope.$$childTail.entry;
+        delete $scope.$$childHead.entry;
+	}
+
     $scope.remove = function(record, key) {
         delete record[key];
     }

@@ -76,6 +76,8 @@
                         <br />
                     </div>
 
+                    <span href="#" editable-text="entry.key" buttons="no" >{{ entry.key || 'empty' }}:</span>
+                    <span href="#" editable-text="entry.value" onaftersave="saveEntry(entry, $index);" buttons="no" >{{ entry.value || 'empty' }}</span>
                 </div>
 
                 <br />
