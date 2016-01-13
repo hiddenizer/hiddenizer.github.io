@@ -1,3 +1,3 @@
-# shadownizer
+# hiddenizer
 
 Simple text-based password manager.
