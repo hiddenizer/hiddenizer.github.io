@@ -1,5 +1,5 @@
 angular
-.module('shadownizerApp')
+.module('hiddenizerApp')
 .factory('scrypto', [function() {
     var module = {};
 
@@ -46,6 +46,6 @@ angular
         }
         return randChars;
     };
-    
+
     return module;
 }]);

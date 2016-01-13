@@ -1,5 +1,5 @@
 angular
-.module('shadownizerApp')
+.module('hiddenizerApp')
 .factory('gdrive', ['$q', function($q) {
     var module = {};
 
@@ -14,7 +14,7 @@ angular
      * Load the password file's.
      *
      * The Google Drive API is automatically loaded and authorized.
-     * The password's file must be named <code>passwords.shadow</code> and only
+     * The password's file must be named <code>passwords.hidde</code> and only
      * the first one found is retrieved.
      *
      * @return {Promise} Promise for the file's content.
@@ -25,10 +25,10 @@ angular
         // load google drive api
         .then(function() {
             return gapi.client.load('drive', 'v2');
-        // find the file named 'passwords.shadow'
+        // find the file named 'passwords.hidde'
         }).then(function() {
             var request = gapi.client.drive.files.list({
-                q: "title = 'passwords.shadow'",
+                q: "title = 'passwords.hidde'",
                 fields: 'items(id,title)',
                 immediate: true,
             });

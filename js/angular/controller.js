@@ -1,6 +1,6 @@
 angular
-.module('shadownizerApp', ['xeditable', 'ui.bootstrap', 'cfp.loadingBar'])
-.controller('shadownizer', ['$scope', 'gdrive', 'scrypto', '$uibModal', 'cfpLoadingBar', function($scope, gdrive, scrypto, $uibModal, cfpLoadingBar) {
+.module('hiddenizerApp', ['xeditable', 'ui.bootstrap', 'cfp.loadingBar'])
+.controller('hiddenizer', ['$scope', 'gdrive', 'scrypto', '$uibModal', 'cfpLoadingBar', function($scope, gdrive, scrypto, $uibModal, cfpLoadingBar) {
 
     $scope.records = [];
     $scope.alerts = [];
